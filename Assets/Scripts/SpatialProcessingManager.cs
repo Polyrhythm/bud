@@ -6,7 +6,7 @@ using HoloToolkit.Unity;
 /// The SpatialProcessingTest class allows applications to scan the environment for a specified amount of time 
 /// and then process the Spatial Mapping Mesh (find planes, remove vertices) after that time has expired.
 /// </summary>
-public class SpatialProcessingTest : Singleton<SpatialProcessingTest>
+public class SpatialProcessingManager : Singleton<SpatialProcessingManager>
 {
     [Tooltip("How much time (in seconds) that the SurfaceObserver will run after being started; used when 'Limit Scanning By Time' is checked.")]
     public float scanTime = 30.0f;
@@ -19,6 +19,9 @@ public class SpatialProcessingTest : Singleton<SpatialProcessingTest>
 
     [Tooltip("Minimum number of floor planes required in order to exit scanning/processing mode.")]
     public uint minimumFloors = 1;
+
+    [Tooltip("Navigation object to inform when mesh processing is complete.")]
+    public GameObject navObj;
 
     /// <summary>
     /// Indicates if processing of the surface meshes is complete.
@@ -40,36 +43,20 @@ public class SpatialProcessingTest : Singleton<SpatialProcessingTest>
     /// <summary>
     /// Called once per frame.
     /// </summary>
-    private void Update()
+    public void StartProcessing()
     {
-        // Check to see if the spatial mapping data has been processed yet.
-        if (!meshesProcessed)
-        {
-            // Check to see if enough scanning time has passed
-            // since starting the observer.
-            if ((Time.time - SpatialMappingManager.Instance.StartTime) < scanTime)
-            {
-                // If we have a limited scanning time, then we should wait until
-                // enough time has passed before processing the mesh.
-            }
-            else
-            {
-                // The user should be done scanning their environment,
-                // so start processing the spatial mapping data...
+        // Call CreatePlanes() to generate planes.
+        CreatePlanes();
 
-                if (SpatialMappingManager.Instance.IsObserverRunning())
-                {
-                    // Stop the observer.
-                    SpatialMappingManager.Instance.StopObserver();
-                }
+        // Set meshesProcessed to true.
+        meshesProcessed = true;
+    }
 
-                // Call CreatePlanes() to generate planes.
-                CreatePlanes();
-
-                // Set meshesProcessed to true.
-                meshesProcessed = true;
-            }
-        }
+    // Logic to run after processing is finished.
+    void OnProcessingComplete()
+    {
+        SpatialMappingManager.Instance.drawVisualMeshes = false;
+        GameController.Instance.SendMessage("OnMeshProcessingComplete");
     }
 
     /// <summary>
@@ -86,12 +73,31 @@ public class SpatialProcessingTest : Singleton<SpatialProcessingTest>
         // Check to see if we have enough floors (minimumFloors) to start processing.
         if (floors.Count >= minimumFloors)
         {
+            // Set floor planes on Ground layer for pathfinding.
+            foreach (GameObject floor in floors)
+            {
+                floor.layer = 8;
+            }
+
+            // Set wall planes to Obstacle layer for navigation avoidance.
+            List<GameObject> walls = new List<GameObject>();
+            walls = SurfaceMeshesToPlanes.Instance.GetActivePlanes(PlaneTypes.Wall);   
+
+            if (walls.Count > 0)
+            {
+                foreach (GameObject wall in walls)
+                {
+                    wall.layer = 9;
+                }
+            }
+
             // Reduce our triangle count by removing any triangles
             // from SpatialMapping meshes that intersect with active planes.
             RemoveVertices(SurfaceMeshesToPlanes.Instance.ActivePlanes);
 
             // After scanning is over, switch to the secondary (occlusion) material.
             SpatialMappingManager.Instance.SetSurfaceMaterial(secondaryMaterial);
+            OnProcessingComplete();
         }
         else
         {

@@ -84,6 +84,12 @@ namespace HoloToolkit.Unity
             }
         }
 
+        public void SendPetToHooman()
+        {
+            GameObject pet = GameObject.Find("Holopet(Clone)");
+            pet.GetComponent<RichPetAI>().GoToHooman();
+        }
+
         private void ProcessKeyBindings()
         {
             foreach (var kvp in KeywordsAndResponses)

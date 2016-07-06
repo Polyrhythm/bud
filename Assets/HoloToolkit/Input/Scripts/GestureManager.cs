@@ -3,6 +3,7 @@
 
 using UnityEngine;
 using UnityEngine.VR.WSA.Input;
+using Pathfinding;
 
 namespace HoloToolkit.Unity
 {
@@ -14,6 +15,8 @@ namespace HoloToolkit.Unity
     [RequireComponent(typeof(GazeManager))]
     public partial class GestureManager : Singleton<GestureManager>
     {
+        private const int GROUND_LAYER = 8;
+
         /// <summary>
         /// To select even when a hologram is not being gazed at,
         /// set the override focused object.
@@ -47,11 +50,46 @@ namespace HoloToolkit.Unity
             gestureRecognizer.StartCapturingGestures();
         }
 
+        private void InputHandler(InteractionSourceKind source, int tapCount, Ray headRay)
+        {
+            switch (GameController.Instance.state)
+            {
+                case GameController.GameStates.PreScan:
+                    GameController.Instance.StartScan();
+                    break;
+
+                case GameController.GameStates.Scanning:
+                    GameController.Instance.StopScan();
+                    break;
+
+                case GameController.GameStates.PrePetSpawn:
+                    if (focusedObject.name == "SurfacePlane(Clone)" &&
+                        focusedObject.layer == GROUND_LAYER)
+                    {
+                        GameController.Instance.SpawnPet(headRay);
+                    }
+                    break;
+
+                default:
+                    if (focusedObject != null)
+                    {
+                        focusedObject.SendMessage("OnSelect");
+                    }
+                    break;
+            }
+        }
+
         private void GestureRecognizer_TappedEvent(InteractionSourceKind source, int tapCount, Ray headRay)
         {
-            if (focusedObject != null)
+            InputHandler(source, tapCount, headRay);           
+        }
+
+        void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
             {
-                focusedObject.SendMessage("OnSelect");
+                Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+                InputHandler(InteractionSourceKind.Controller, 1, ray);
             }
         }
 

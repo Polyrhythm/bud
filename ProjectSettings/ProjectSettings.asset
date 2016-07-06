@@ -9,8 +9,8 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
-  productName: HoloToolkit-Unity
+  companyName: Preeper Studios
+  productName: holopet
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenStyle: 0
@@ -288,6 +288,7 @@ PlayerSettings:
   ps4attribMoveSupport: 0
   ps4attrib3DSupport: 0
   ps4attribShareSupport: 0
+  ps4disableAutoHideSplash: 0
   ps4IncludedModules: []
   monoEnv: 
   psp2Splashimage: {fileID: 0}
@@ -339,15 +340,32 @@ PlayerSettings:
   psp2UseDebugIl2cppLibs: 0
   psmSplashimage: {fileID: 0}
   spritePackerPolicy: 
-  scriptingDefineSymbols: {}
-  metroPackageName: HoloToolkit-Unity
+  scriptingDefineSymbols:
+    1: ASTAR_NO_JSON;ASTAR_NO_ZIP
+    2: ASTAR_NO_JSON;ASTAR_NO_ZIP
+    4: ASTAR_NO_JSON;ASTAR_NO_ZIP
+    5: ASTAR_NO_JSON;ASTAR_NO_ZIP
+    6: ASTAR_NO_JSON;ASTAR_NO_ZIP
+    7: ASTAR_NO_JSON;ASTAR_NO_ZIP
+    13: ASTAR_NO_JSON;ASTAR_NO_ZIP
+    14: ASTAR_NO_JSON;ASTAR_NO_ZIP
+    17: ASTAR_NO_JSON;ASTAR_NO_ZIP
+    18: ASTAR_NO_JSON;ASTAR_NO_ZIP
+    19: ASTAR_NO_JSON;ASTAR_NO_ZIP
+    20: ASTAR_NO_JSON;ASTAR_NO_ZIP
+    21: ASTAR_NO_JSON;ASTAR_NO_ZIP
+    22: ASTAR_NO_JSON;ASTAR_NO_ZIP
+    23: ASTAR_NO_JSON;ASTAR_NO_ZIP
+    24: ASTAR_NO_JSON;ASTAR_NO_ZIP
+    25: ASTAR_NO_JSON;ASTAR_NO_ZIP
+  metroPackageName: holopet
   metroPackageVersion: 1.0.0.0
   metroCertificatePath: Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: DefaultCompany
-  metroCertificateIssuer: DefaultCompany
-  metroCertificateNotAfter: 8023f703f0ecd201
-  metroApplicationDescription: HoloToolkit-Unity
+  metroCertificateSubject: Preeper Studios
+  metroCertificateIssuer: Preeper Studios
+  metroCertificateNotAfter: 008f301566f0d201
+  metroApplicationDescription: A holographic companion.
   wsaImages: {}
   metroTileShortName: HoloToolkit-Unity
   metroCommandLineArgsFile: 

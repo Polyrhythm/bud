@@ -35,7 +35,7 @@ namespace HoloToolkit.Unity
         /// <summary>
         /// Used for loading or saving spatial mapping data to disk.
         /// </summary>
-        private FileSurfaceObserver fileSurfaceObserver;
+        private ObjectSurfaceObserver objectSurfaceObserver;
 
         /// <summary>
         /// Used for sending meshes over the network and saving them to disk.
@@ -61,7 +61,7 @@ namespace HoloToolkit.Unity
         }
 
         // Use for initialization.
-        private void Start()
+        public void StartObserverOrLoadFixture()
         {
             remoteMeshTarget = FindObjectOfType<RemoteMeshTarget>();
 
@@ -70,16 +70,16 @@ namespace HoloToolkit.Unity
 #endif
 
 #if UNITY_EDITOR
-            fileSurfaceObserver = GetComponent<FileSurfaceObserver>();
+            objectSurfaceObserver = GetComponent<ObjectSurfaceObserver>();
 
-            if (fileSurfaceObserver != null)
+            if (objectSurfaceObserver != null)
             {
                 // In the Unity editor, try loading a saved mesh.
-                fileSurfaceObserver.Load(fileSurfaceObserver.MeshFileName);
+                objectSurfaceObserver.Load(objectSurfaceObserver.roomModel);
 
-                if (fileSurfaceObserver.GetMeshFilters().Count > 0)
+                if (objectSurfaceObserver.GetMeshFilters().Count > 0)
                 {
-                    SetSpatialMappingSource(fileSurfaceObserver);
+                    SetSpatialMappingSource(objectSurfaceObserver);
                 }
                 else if (remoteMeshTarget != null)
                 {
@@ -97,19 +97,19 @@ namespace HoloToolkit.Unity
             // F - to use the 'file' sourced mesh.
             if (Input.GetKeyUp(KeyCode.F))
             {
-                SpatialMappingManager.Instance.SetSpatialMappingSource(fileSurfaceObserver);
+                SpatialMappingManager.Instance.SetSpatialMappingSource(objectSurfaceObserver);
             }
 
             // S - saves the active mesh
             if (Input.GetKeyUp(KeyCode.S))
             {
-                MeshSaver.Save(fileSurfaceObserver.MeshFileName, SpatialMappingManager.Instance.GetMeshes());
+                MeshSaver.Save(objectSurfaceObserver.roomModel.ToString(), SpatialMappingManager.Instance.GetMeshes());
             }
 
             // L - loads the previously saved mesh into the file source.
             if (Input.GetKeyUp(KeyCode.L))
             {
-                fileSurfaceObserver.Load(fileSurfaceObserver.MeshFileName);
+                objectSurfaceObserver.Load(objectSurfaceObserver.roomModel);
             }
 #endif
         }
