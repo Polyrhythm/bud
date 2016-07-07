@@ -38,6 +38,11 @@ namespace HoloToolkit.Unity
         private GestureRecognizer gestureRecognizer;
         private GameObject focusedObject;
 
+        void Awake()
+        {
+            DontDestroyOnLoad(transform.gameObject);
+        }
+
         void Start()
         {
             // Create a new GestureRecognizer. Sign up for tapped events.
@@ -52,14 +57,37 @@ namespace HoloToolkit.Unity
 
         private void InputHandler(InteractionSourceKind source, int tapCount, Ray headRay)
         {
+            PlayerController.Instance.PlayEvent("tap");
+
             switch (GameController.Instance.state)
             {
-                case GameController.GameStates.PreScan:
-                    GameController.Instance.StartScan();
+                case GameController.GameStates.Menu:
+                    Debug.Log(focusedObject);
+                    if (focusedObject.name == "StartButton")
+                    {
+                        GameController.Instance.LoadScene(1);
+                    }
+
+                    if (focusedObject.name == "ObjectCollisionToggle")
+                    {
+                        CollisionToggle.Instance.OnToggle();
+                    }
                     break;
 
                 case GameController.GameStates.Scanning:
                     GameController.Instance.StopScan();
+                    break;
+
+                case GameController.GameStates.PetSelect:
+                    if (focusedObject.name == "PandaSelect")
+                    {
+                        GameController.Instance.PetSelect(GameController.PetTypes.Panda);
+                    }
+
+                    if (focusedObject.name == "nameSelect")
+                    {
+                        NameSelect.Instance.OnNameSelect();
+                    }
                     break;
 
                 case GameController.GameStates.PrePetSpawn:

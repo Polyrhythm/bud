@@ -53,6 +53,8 @@ namespace HoloToolkit.Unity
         /// </summary>
         public SpatialMappingSource Source { get; private set; }
 
+        private int OBSTACLE_LAYER = 9;
+
         // Called when the GameObject is first created.
         private void Awake()
         {
@@ -269,6 +271,24 @@ namespace HoloToolkit.Unity
             }
 
             return meshes;
+        }
+
+        public void SetMeshAsObstacles()
+        {
+            List<MeshFilter> meshFilters = GetMeshFilters();
+            foreach (MeshFilter meshFilter in meshFilters)
+            {
+                meshFilter.gameObject.layer = OBSTACLE_LAYER;
+            }
+        }
+
+        public void DisableMeshColliders()
+        {
+            List<MeshFilter> meshFilters = GetMeshFilters();
+            foreach (MeshFilter meshFilter in meshFilters)
+            {
+                meshFilter.GetComponent<MeshCollider>().enabled = false;
+            }
         }
 
         /// <summary>

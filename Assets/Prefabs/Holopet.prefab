@@ -1415,7 +1415,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -1478,6 +1478,7 @@ MonoBehaviour:
   slowWhenNotFacingTarget: 1
   controller: {fileID: 0}
   wanderThreshold: 30
+  audioManager: {fileID: 0}
 --- !u!114 &114000011604253794
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1490,7 +1491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   events:
-  - name: meowShort
+  - name: react
     spatialization: 2
     roomSize: 0
     minGain: -96
@@ -1512,7 +1513,7 @@ MonoBehaviour:
       looping: 0
       loopTime: 0
       sounds:
-      - sound: {fileID: 8300000, guid: adfb63767055ec84d80b5723a5a0d184, type: 3}
+      - sound: {fileID: 8300000, guid: 5165fa840f768c349a2551d733dd3142, type: 3}
         looping: 0
         delayCenter: 0
         delayRandomization: 0

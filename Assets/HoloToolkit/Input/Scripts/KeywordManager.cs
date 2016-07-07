@@ -46,27 +46,9 @@ namespace HoloToolkit.Unity
         private KeywordRecognizer keywordRecognizer;
         private Dictionary<string, UnityEvent> responses;
 
-        void Start()
+        void Awake()
         {
-            if (KeywordsAndResponses.Length > 0)
-            {
-                // Convert the struct array into a dictionary, with the keywords and the keys and the methods as the values.
-                // This helps easily link the keyword recognized to the UnityEvent to be invoked.
-                responses = KeywordsAndResponses.ToDictionary(keywordAndResponse => keywordAndResponse.Keyword,
-                                                              keywordAndResponse => keywordAndResponse.Response);
-
-                keywordRecognizer = new KeywordRecognizer(responses.Keys.ToArray());
-                keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;
-
-                if (RecognizerStart == RecognizerStartBehavior.AutoStart)
-                {
-                    keywordRecognizer.Start();
-                }
-            }
-            else
-            {
-                Debug.LogError("Must have at least one keyword specified in the Inspector on " + gameObject.name + ".");
-            }
+            DontDestroyOnLoad(transform.gameObject);
         }
 
         void Update()
@@ -88,6 +70,7 @@ namespace HoloToolkit.Unity
         {
             GameObject pet = GameObject.Find("Holopet(Clone)");
             pet.GetComponent<RichPetAI>().GoToHooman();
+            GameController.Instance.SendMessage("OnHereCommand");
         }
 
         private void ProcessKeyBindings()
@@ -119,6 +102,26 @@ namespace HoloToolkit.Unity
         /// </summary>
         public void StartKeywordRecognizer()
         {
+            if (KeywordsAndResponses.Length > 0)
+            {
+                // Convert the struct array into a dictionary, with the keywords and the keys and the methods as the values.
+                // This helps easily link the keyword recognized to the UnityEvent to be invoked.
+                responses = KeywordsAndResponses.ToDictionary(keywordAndResponse => GameController.Instance.petName + " " + keywordAndResponse.Keyword,
+                                                              keywordAndResponse => keywordAndResponse.Response);
+
+                keywordRecognizer = new KeywordRecognizer(responses.Keys.ToArray());
+                keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;
+
+                if (RecognizerStart == RecognizerStartBehavior.AutoStart)
+                {
+                    keywordRecognizer.Start();
+                }
+            }
+            else
+            {
+                Debug.LogError("Must have at least one keyword specified in the Inspector on " + gameObject.name + ".");
+            }
+
             if (keywordRecognizer != null && !keywordRecognizer.IsRunning)
             {
                 keywordRecognizer.Start();

@@ -97,6 +97,18 @@ public class SpatialProcessingManager : Singleton<SpatialProcessingManager>
 
             // After scanning is over, switch to the secondary (occlusion) material.
             SpatialMappingManager.Instance.SetSurfaceMaterial(secondaryMaterial);
+
+            // If collisions are toggled, set meshes on collision layer.
+            // Else, leave them off that layer and disable their colliders.
+            if (GameController.Instance.colToggled)
+            {
+                SpatialMappingManager.Instance.SetMeshAsObstacles();
+            }
+            else
+            {
+                SpatialMappingManager.Instance.DisableMeshColliders();
+            }
+
             OnProcessingComplete();
         }
         else

@@ -7,13 +7,13 @@ public class RichPetAI : RichAI {
     private RecastGraph activeGraph;
     private GameObject hooman;
     private bool goingToHooman = false;
-    private const string MEOW_SHORT = "meowShort";
-    private const string PURR_MEDIUM = "purrMedium";
     private float originalMaxSpeed = 0f;
     private Vector3 lastPos;
 
     private Animator animator;
     private const string SPEED_PARAM = "speed";
+
+    public UAudioManager audioManager;
 
     protected override void Start()
     {
@@ -23,6 +23,7 @@ public class RichPetAI : RichAI {
         InvokeRepeating("Wander", 0, wanderThreshold);
         animator = GetComponentInChildren<Animator>();
         lastPos = transform.position;
+        audioManager = GetComponent<UAudioManager>();
     }
 
     protected override void Update()
@@ -36,7 +37,6 @@ public class RichPetAI : RichAI {
         Vector3 horPos = new Vector3(transform.position.x, 0, transform.position.z);
         Vector3 lastHorPos = new Vector3(lastPos.x, 0, lastPos.z);
         float speed = ((horPos - lastHorPos) / Time.deltaTime).magnitude;
-        Debug.Log("speed: " + speed);
         animator.SetFloat(SPEED_PARAM, speed);
 
         lastPos = transform.position;
@@ -59,7 +59,7 @@ public class RichPetAI : RichAI {
         target = (Vector3)GetRandomNode(activeGraph).position;
     }
 
-    public void GoToHooman()
+    public virtual void GoToHooman()
     {
         goingToHooman = true;
         originalMaxSpeed = maxSpeed;
