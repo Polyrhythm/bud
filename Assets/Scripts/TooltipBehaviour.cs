@@ -5,7 +5,7 @@ using HoloToolkit.Unity;
 public class TooltipBehaviour : MonoBehaviour {
     private Vector3 origPos;
     private Interpolator interp;
-    private UAudioManager audio;
+    private UAudioManager audioManager;
 
 	// Use this for initialization
 	void Start () {
@@ -13,8 +13,8 @@ public class TooltipBehaviour : MonoBehaviour {
         origPos = transform.position;
         transform.position = transform.position - (Vector3.up * 10);
         interp.SetTargetPosition(origPos);
-        audio = GetComponent<UAudioManager>();
-        audio.PlayEvent("pop");
+        audioManager = GetComponent<UAudioManager>();
+        audioManager.PlayEvent("pop");
 	}
 
     void GoAway()

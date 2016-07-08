@@ -2,9 +2,10 @@
 using UnityEngine.SceneManagement;
 using HoloToolkit.Unity;
 using Pathfinding;
+using System.Collections;
 
 public partial class GameController : Singleton<GameController> {
-    public enum GameStates { Menu, Scanning, PetSelect, PrePetSpawn, Tutorial, Play };
+    public enum GameStates { Menu, Scanning, PetSelect, PrePetSpawn, Tutorial, Play, Interaction };
     public enum PetTypes { Panda, Bear };
     public GameStates state;
     public GameObject voiceManager;
@@ -13,6 +14,7 @@ public partial class GameController : Singleton<GameController> {
     public GameObject spawnAdvicePrefab;
     public GameObject petSelectMenuPrefab;
     public GameObject tutorialAdvicePrefab;
+    public GameObject ingameMenuPrefab;
 
     [HideInInspector]
     public string petName = "Edward";
@@ -25,8 +27,12 @@ public partial class GameController : Singleton<GameController> {
     private GameObject selectPetMenu;
     private GameObject selectedPetPrefab;
     private GameObject tutorialAdvice;
-    private float gameStart;
-    private bool tutorialPlayed = false;
+    private GameObject ingameMenu;
+
+    public void SetState(GameStates newState)
+    {
+        state = newState;
+    }
 
     void Awake()
     {
@@ -34,21 +40,12 @@ public partial class GameController : Singleton<GameController> {
         SceneManager.sceneLoaded += SceneLoaded;
     }
 
-    void Update()
-    {
-        if (state != GameStates.Tutorial || tutorialPlayed) return;
-
-        if (Time.time - gameStart < 15) return;
-
-        tutorialAdvice = (GameObject)Instantiate(tutorialAdvicePrefab, transform.position, Quaternion.identity);
-        tutorialPlayed = true;
-    }
-
     public void OnHereCommand()
     {
-        if (!tutorialAdvice || !tutorialPlayed || state != GameStates.Tutorial) return;
+        if (!tutorialAdvice || state != GameStates.Tutorial) return;
 
         tutorialAdvice.SendMessage("GoAway");
+        BeginMenuTutorial();
         state = GameStates.Play;
     }
 
@@ -133,8 +130,19 @@ public partial class GameController : Singleton<GameController> {
             );
         }
 
-        state = GameStates.Tutorial;
-        gameStart = Time.time;
         spawnAdvice.SendMessage("GoAway");
+        StartCoroutine(BeginCommandTutorial());
+    }
+
+    IEnumerator BeginCommandTutorial()
+    {
+        state = GameStates.Tutorial;
+        yield return new WaitForSeconds(15);
+        tutorialAdvice = (GameObject)Instantiate(tutorialAdvicePrefab, transform.position, Quaternion.identity);
+    }
+
+    void BeginMenuTutorial()
+    {
+        ingameMenu = (GameObject)Instantiate(ingameMenuPrefab, Camera.main.transform.position + Camera.main.transform.forward * 2f, Quaternion.identity);
     }
 }

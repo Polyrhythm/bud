@@ -61,6 +61,11 @@ namespace HoloToolkit.Unity
 
             switch (GameController.Instance.state)
             {
+                case GameController.GameStates.Interaction:
+                    BroadcastMessage("OnInteract");
+                    GameController.Instance.SetState(GameController.GameStates.Play);
+                    break;
+
                 case GameController.GameStates.Menu:
                     Debug.Log(focusedObject);
                     if (focusedObject.name == "StartButton")

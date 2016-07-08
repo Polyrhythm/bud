@@ -430,6 +430,7 @@ GameObject:
   - 114: {fileID: 114000011604253794}
   - 82: {fileID: 82000010825360052}
   - 114: {fileID: 114000011278704840}
+  - 114: {fileID: 114000014196586960}
   m_Layer: 0
   m_Name: Holopet
   m_TagString: Untagged
@@ -1596,6 +1597,17 @@ MonoBehaviour:
   bezierTangentLength: 0.4
   offset: 0.2
   factor: 0.1
+--- !u!114 &114000014196586960
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012545132342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94955ba17bd1a134ab31c3ca2117f6e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!137 &137000013888095386
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

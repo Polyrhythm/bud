@@ -7,6 +7,7 @@ public class RichPetAI : RichAI {
     private RecastGraph activeGraph;
     private GameObject hooman;
     private bool goingToHooman = false;
+    private bool goingToObject = false;
     private float originalMaxSpeed = 0f;
     private Vector3 lastPos;
 
@@ -44,8 +45,9 @@ public class RichPetAI : RichAI {
 
     protected override void OnTargetReached()
     {
-        if (goingToHooman)
+        if (goingToHooman || goingToObject)
         {
+            goingToObject = false;
             goingToHooman = false;
             maxSpeed = originalMaxSpeed;
         }
@@ -54,7 +56,7 @@ public class RichPetAI : RichAI {
 
     public void Wander()
     {
-        if (goingToHooman) return;
+        if (goingToHooman || goingToObject) return;
 
         target = (Vector3)GetRandomNode(activeGraph).position;
     }
@@ -65,6 +67,14 @@ public class RichPetAI : RichAI {
         originalMaxSpeed = maxSpeed;
         maxSpeed = maxSpeed * 1.5f;
         target = UtilManager.Instance.GetGroundPosition(hooman);
+    }
+
+    public void GoToShinyObject(Vector3 pos)
+    {
+        goingToObject = true;
+        originalMaxSpeed = maxSpeed;
+        maxSpeed = maxSpeed * 1.5f;
+        target = pos;
     }
 
     public GraphNode GetRandomNode(RecastGraph graph)

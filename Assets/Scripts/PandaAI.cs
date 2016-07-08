@@ -8,4 +8,10 @@ public class PandaAI : RichPetAI {
         base.GoToHooman();
         audioManager.PlayEvent("react");       
     }
+
+    void OnToyThrown(GameObject toy)
+    {
+        GoToShinyObject(toy.transform.position);
+        audioManager.PlayEvent("react");
+    }
 }
