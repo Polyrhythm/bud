@@ -13,18 +13,22 @@ public class RichPetAI : RichAI {
 
     private Animator animator;
     private const string SPEED_PARAM = "speed";
+    private float fieldOfView = 110f;
 
     public UAudioManager audioManager;
+
+    private HeadLookController headController;
 
     protected override void Start()
     {
         base.Start();
         activeGraph = AstarPath.active.astarData.recastGraph;
-        hooman = GameObject.Find("Main Camera");
+        hooman = Camera.main.gameObject;
         InvokeRepeating("Wander", 0, wanderThreshold);
         animator = GetComponentInChildren<Animator>();
         lastPos = transform.position;
         audioManager = GetComponent<UAudioManager>();
+        headController = GetComponent<HeadLookController>();
     }
 
     protected override void Update()
@@ -41,6 +45,8 @@ public class RichPetAI : RichAI {
         animator.SetFloat(SPEED_PARAM, speed);
 
         lastPos = transform.position;
+
+        headController.target = target;
     }
 
     protected override void OnTargetReached()
@@ -66,7 +72,7 @@ public class RichPetAI : RichAI {
         goingToHooman = true;
         originalMaxSpeed = maxSpeed;
         maxSpeed = maxSpeed * 1.5f;
-        target = UtilManager.Instance.GetGroundPosition(hooman);
+        target = hooman.transform.position;
     }
 
     public void GoToShinyObject(Vector3 pos)

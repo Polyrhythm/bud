@@ -57,8 +57,6 @@ namespace HoloToolkit.Unity
 
         private void InputHandler(InteractionSourceKind source, int tapCount, Ray headRay)
         {
-            PlayerController.Instance.PlayEvent("tap");
-
             switch (GameController.Instance.state)
             {
                 case GameController.GameStates.Interaction:

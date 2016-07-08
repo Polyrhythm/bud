@@ -68,8 +68,7 @@ namespace HoloToolkit.Unity
 
         public void SendPetToHooman()
         {
-            GameObject pet = GameObject.Find("Holopet(Clone)");
-            pet.GetComponent<RichPetAI>().GoToHooman();
+            PetSingleton.Instance.GetComponent<RichPetAI>().GoToHooman();
             GameController.Instance.SendMessage("OnHereCommand");
         }
 

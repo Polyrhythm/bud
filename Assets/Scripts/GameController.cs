@@ -45,7 +45,6 @@ public partial class GameController : Singleton<GameController> {
         if (!tutorialAdvice || state != GameStates.Tutorial) return;
 
         tutorialAdvice.SendMessage("GoAway");
-        BeginMenuTutorial();
         state = GameStates.Play;
     }
 
@@ -88,7 +87,6 @@ public partial class GameController : Singleton<GameController> {
         SpatialProcessingManager.Instance.StartProcessing();
 
         selectPetMenu = (GameObject)Instantiate(petSelectMenuPrefab, transform.position, Quaternion.identity);
-        PlayerController.Instance.StopIntroMusic();
     }
 
     public void PetSelect(PetTypes petType)
@@ -139,6 +137,8 @@ public partial class GameController : Singleton<GameController> {
         state = GameStates.Tutorial;
         yield return new WaitForSeconds(15);
         tutorialAdvice = (GameObject)Instantiate(tutorialAdvicePrefab, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(5);
+        tutorialAdvice.SendMessage("GoAway");
     }
 
     void BeginMenuTutorial()
