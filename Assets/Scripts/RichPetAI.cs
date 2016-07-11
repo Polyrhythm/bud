@@ -3,37 +3,78 @@ using Pathfinding;
 using HoloToolkit.Unity;
 
 public class RichPetAI : RichAI {
+    public GameObject headBone;
     public int wanderThreshold = 30;
     private RecastGraph activeGraph;
     private GameObject hooman;
     private bool goingToHooman = false;
     private bool goingToObject = false;
     private float originalMaxSpeed = 0f;
-    private Vector3 lastPos;
 
-    private Animator animator;
+    private bool isSlerping = false;
+    private float slerpStart;
+    private float slerpDuration = 0.5f;
+    private Quaternion lookRotation;
+    private Quaternion lastSlerpedRot;
+
+    [HideInInspector]
+    public Vector3 lastPos;
+
+    [HideInInspector]
+    public Animator animator;
+
+    [HideInInspector]
+    // Whether we should be messing with where the animal looks or deferring to animation.
+    public bool headAnimating;
+
+    // Stateful attributes.
+    [HideInInspector]
+    public float affinity = 0;
+    [HideInInspector]
+    public float energy = 100;
+    [HideInInspector]
+    public float hunger = 100;
+
     private const string SPEED_PARAM = "speed";
     private float fieldOfView = 110f;
 
+    [HideInInspector]
     public UAudioManager audioManager;
-
-    private HeadLookController headController;
 
     protected override void Start()
     {
         base.Start();
         activeGraph = AstarPath.active.astarData.recastGraph;
         hooman = Camera.main.gameObject;
-        InvokeRepeating("Wander", 0, wanderThreshold);
         animator = GetComponentInChildren<Animator>();
         lastPos = transform.position;
         audioManager = GetComponent<UAudioManager>();
-        headController = GetComponent<HeadLookController>();
+        GoToHooman();
     }
 
     protected override void Update()
     {
         base.Update();
+
+        if (!headAnimating)
+        {
+
+            if (!isSlerping)
+            {
+                Debug.Log("not slerping");
+                lookRotation = Quaternion.LookRotation(target - transform.position + Vector3.up * 2f);
+                // I need to figure out what in thet actual fuck is making this work.
+                lookRotation *= Quaternion.Euler(90, 270, 180);
+
+                if (Quaternion.Angle(lookRotation, lastSlerpedRot) >= 10f && Vector3.Angle(target - transform.position, transform.forward.normalized) <= 60)
+                {
+                    Debug.Log("rotations not equal: " + Quaternion.Angle(lookRotation, lastSlerpedRot));
+                    slerpStart = Time.time;
+                    isSlerping = true;
+                }
+            }
+        }
+
         if (lastPos == transform.position) {
             animator.SetFloat(SPEED_PARAM, 0);
             return;
@@ -45,8 +86,27 @@ public class RichPetAI : RichAI {
         animator.SetFloat(SPEED_PARAM, speed);
 
         lastPos = transform.position;
+    }
 
-        headController.target = target;
+    void LateUpdate()
+    {
+        if (headAnimating) return;
+
+        // TODO: Slerp back to where we were at.
+        headBone.transform.rotation = lastSlerpedRot;
+
+        if (!isSlerping) return;
+
+        float timeSinceStarted = Time.time - slerpStart;
+        float percentageComplete = timeSinceStarted / slerpDuration;
+
+        headBone.transform.rotation = Quaternion.Slerp(headBone.transform.rotation, lookRotation, percentageComplete);
+
+        if (percentageComplete >= 1.0f)
+        {
+            isSlerping = false;
+            lastSlerpedRot = headBone.transform.rotation;
+        }
     }
 
     protected override void OnTargetReached()
@@ -57,7 +117,6 @@ public class RichPetAI : RichAI {
             goingToHooman = false;
             maxSpeed = originalMaxSpeed;
         }
-        Wander();
     }
 
     public void Wander()
@@ -71,8 +130,8 @@ public class RichPetAI : RichAI {
     {
         goingToHooman = true;
         originalMaxSpeed = maxSpeed;
-        maxSpeed = maxSpeed * 1.5f;
-        target = hooman.transform.position;
+        maxSpeed = maxSpeed * 2f;
+        target = hooman.transform.position + hooman.transform.forward * 1;
     }
 
     public void GoToShinyObject(Vector3 pos)

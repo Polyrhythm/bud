@@ -101,6 +101,11 @@ namespace HoloToolkit.Unity
                     }
                     break;
 
+                case GameController.GameStates.MenuTutorial:
+                    GameController.Instance.CloseMenuAdvice();
+                    GameController.Instance.SpawnGameMenu();
+                    break;
+
                 default:
                     if (focusedObject != null)
                     {

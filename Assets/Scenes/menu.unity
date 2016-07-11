@@ -317,6 +317,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 382706650}
   - 114: {fileID: 382706649}
+  - 114: {fileID: 382706652}
+  - 82: {fileID: 382706651}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -337,7 +339,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 0
   voiceManager: {fileID: 847771676}
-  pandaPrefab: {fileID: 1000012545132342, guid: a0ebcf07ec35fe24998afbaacbaab6c8,
+  pandaPrefab: {fileID: 1000012604605352, guid: 35d9de13f3e0af041bb4ecb6d61156b2,
     type: 2}
   mapAdvicePrefab: {fileID: 1000011386068066, guid: 748d523d844f3fa4383e97356eeb4f10,
     type: 2}
@@ -347,8 +349,16 @@ MonoBehaviour:
     type: 2}
   tutorialAdvicePrefab: {fileID: 1000011886234718, guid: 307be6a5909e52144bf8e6c398486309,
     type: 2}
-  ingameMenuPrefab: {fileID: 1000011700068546, guid: 9a59415008636d0428a8e2ce26da0a13,
+  menuAdvicePrefabOne: {fileID: 1000010046197008, guid: cd3a656156c44bb43bc87e46531bab90,
     type: 2}
+  menuAdvicePrefabTwo: {fileID: 1000010429870344, guid: fe774f52e23baff4ea17087554b7b9db,
+    type: 2}
+  foodAdvicePrefab: {fileID: 1000011000135124, guid: aa1761d4a2645f648b7e8cda5d5727dc,
+    type: 2}
+  ingameMenuPrefab: {fileID: 1000012287220760, guid: 9a59415008636d0428a8e2ce26da0a13,
+    type: 2}
+  affinityState: 1
+  hungerState: 4
   petName: Edward
   colToggled: 0
 --- !u!4 &382706650
@@ -358,12 +368,128 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 382706648}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.08369, y: -1.3069104, z: -0.61769456}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &382706651
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 382706648}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+--- !u!114 &382706652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 382706648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88e5a9c38f6989249b88204932d7884f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events:
+  - name: introMusic
+    spatialization: 2
+    roomSize: 0
+    minGain: -96
+    maxGain: 12
+    unityGainDistance: 1
+    bus: {fileID: 0}
+    pitchCenter: 1
+    pitchRandomization: 0
+    volumeCenter: 1
+    volumeRandomization: 0
+    panCenter: 0
+    panRandomization: 0
+    fadeInTime: 0
+    instanceLimit: 0
+    instanceTimeBuffer: 0
+    instanceBehavior: 0
+    container:
+      containerType: 0
+      looping: 1
+      loopTime: 0
+      sounds:
+      - sound: {fileID: 8300000, guid: cdeefe40df28e314eac52f2eba8b9181, type: 3}
+        looping: 0
+        delayCenter: 0
+        delayRandomization: 0
+      crossfadeTime: 0
+      currentClip: 0
+  globalEventInstanceLimit: 0
+  globalInstanceBehavior: 0
 --- !u!1001 &545188651
 Prefab:
   m_ObjectHideFlags: 0
@@ -467,8 +593,8 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
   m_Materials:
   - {fileID: 10100, guid: 0000000000000000e000000000000000, type: 0}
   m_SubsetIndices: 
@@ -1106,7 +1232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scaleFactor: 0.6
-  hitTime: 0.25
+  hitTime: 0.15
 --- !u!114 &1764348177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1145,150 +1271,6 @@ MonoBehaviour:
   throwablePrefab: {fileID: 1000010142986282, guid: 9b723b3e890cb79469bf19fe8241dd40,
     type: 2}
   force: 4
---- !u!82 &1801451609
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1801451600}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 0.253
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
---- !u!114 &1801451610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1801451600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88e5a9c38f6989249b88204932d7884f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  events:
-  - name: IntroMusic
-    spatialization: 2
-    roomSize: 0
-    minGain: -96
-    maxGain: 2.4
-    unityGainDistance: 1
-    bus: {fileID: 0}
-    pitchCenter: 1
-    pitchRandomization: 0
-    volumeCenter: 0.165
-    volumeRandomization: 0
-    panCenter: 0
-    panRandomization: 0
-    fadeInTime: 5
-    instanceLimit: 0
-    instanceTimeBuffer: 0
-    instanceBehavior: 0
-    container:
-      containerType: 0
-      looping: 1
-      loopTime: 21.333
-      sounds:
-      - sound: {fileID: 8300000, guid: cdeefe40df28e314eac52f2eba8b9181, type: 3}
-        looping: 0
-        delayCenter: 0
-        delayRandomization: 0
-      crossfadeTime: 0
-      currentClip: 0
-  - name: tap
-    spatialization: 2
-    roomSize: 0
-    minGain: -96
-    maxGain: 12
-    unityGainDistance: 1
-    bus: {fileID: 0}
-    pitchCenter: 1
-    pitchRandomization: 0
-    volumeCenter: 1
-    volumeRandomization: 0
-    panCenter: 0
-    panRandomization: 0
-    fadeInTime: 0
-    instanceLimit: 0
-    instanceTimeBuffer: 0
-    instanceBehavior: 0
-    container:
-      containerType: 0
-      looping: 0
-      loopTime: 0
-      sounds:
-      - sound: {fileID: 8300000, guid: ecba026018bc1cd45a335a73be0a0d05, type: 3}
-        looping: 0
-        delayCenter: 0
-        delayRandomization: 0
-      crossfadeTime: 0
-      currentClip: 0
-  globalEventInstanceLimit: 0
-  globalInstanceBehavior: 0
 --- !u!114 &1801451611
 MonoBehaviour:
   m_ObjectHideFlags: 0
