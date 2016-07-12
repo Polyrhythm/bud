@@ -38,6 +38,9 @@ public class RichPetAI : RichAI {
     private const string SPEED_PARAM = "speed";
     private float fieldOfView = 110f;
 
+    // Keep track of random items.
+    private GameObject foodBowl;
+
     [HideInInspector]
     public UAudioManager audioManager;
 
@@ -62,11 +65,12 @@ public class RichPetAI : RichAI {
             if (!isSlerping)
             {
                 Debug.Log("not slerping");
-                lookRotation = Quaternion.LookRotation(target - transform.position + Vector3.up * 2f);
-                // I need to figure out what in thet actual fuck is making this work.
+                Vector3 lookTarget = goingToHooman ? Camera.main.transform.position : target;
+                lookRotation = Quaternion.LookRotation(lookTarget - transform.position + Vector3.up * 2f);
+                // I need to figure out what in the actual fuck is making this work.
                 lookRotation *= Quaternion.Euler(90, 270, 180);
 
-                if (Quaternion.Angle(lookRotation, lastSlerpedRot) >= 10f && Vector3.Angle(target - transform.position, transform.forward.normalized) <= 60)
+                if (Quaternion.Angle(lookRotation, lastSlerpedRot) >= 10f && Vector3.Angle(lookTarget - transform.position, transform.forward.normalized) <= 60)
                 {
                     Debug.Log("rotations not equal: " + Quaternion.Angle(lookRotation, lastSlerpedRot));
                     slerpStart = Time.time;
@@ -140,6 +144,12 @@ public class RichPetAI : RichAI {
         originalMaxSpeed = maxSpeed;
         maxSpeed = maxSpeed * 1.5f;
         target = pos;
+    }
+
+    public void BowlPlaced(GameObject bowl)
+    {
+        foodBowl = bowl;
+        GoToShinyObject(foodBowl.transform.position);
     }
 
     public GraphNode GetRandomNode(RecastGraph graph)

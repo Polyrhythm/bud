@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using HoloToolkit.Unity;
 
 public partial class NameSelect : Singleton<NameSelect> {
     public static string petName = "Edward";
     public TextMesh textChild;
-    TouchScreenKeyboard keyboard;
+    public GameObject keyboardPrefab;
+    public InputField textInput;
+
+    private GameObject keyboard;
 
     void Start()
     {
@@ -12,24 +16,14 @@ public partial class NameSelect : Singleton<NameSelect> {
         GameController.Instance.petName = petName;
     }
 
-    void Update()
-    {
-        if (keyboard != null && keyboard.active == false)
-        {
-            if (keyboard.done == true)
-            {
-                petName = keyboard.text.Trim();
-                keyboard = null;
-                SetText(petName);
-                GameController.Instance.petName = petName;
-            }
-        }
-    }
-
     public void OnNameSelect()
     {
-        Debug.Log("hello!");
-        keyboard = new TouchScreenKeyboard(petName, TouchScreenKeyboardType.Default, false, false, false, false, "Choose a name!");
+        keyboard = (GameObject)Instantiate(keyboardPrefab, transform.position, Quaternion.identity);
+    }
+
+    public void OnSubmit()
+    {
+        petName = textInput.text.Trim();
     }
 
     void SetText(string name)

@@ -1372,7 +1372,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 1, z: 1.7}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65000014133198006
 BoxCollider:
@@ -1537,7 +1537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c43b6c0dc5ae5734bbe6ad4d5c31a4f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bowlPrefab: {fileID: 1000010872255264, guid: b25dc7507468b814486cd79c1a78ab76, type: 2}
+  bowlPrefab: {fileID: 1000010757051994, guid: b25dc7507468b814486cd79c1a78ab76, type: 2}
 --- !u!114 &114000010193295080
 MonoBehaviour:
   m_ObjectHideFlags: 1
