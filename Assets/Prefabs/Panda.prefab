@@ -1480,8 +1480,14 @@ MonoBehaviour:
   controller: {fileID: 0}
   headBone: {fileID: 1000012753380044}
   wanderThreshold: 30
+  goingToHooman: 0
+  goingToObject: 0
   lastPos: {x: 0, y: 0, z: 0}
   animator: {fileID: 0}
+  headAnimating: 0
+  affinity: 0
+  hunger: 100
+  foodBowl: {fileID: 0}
   audioManager: {fileID: 0}
 --- !u!114 &114000011883828024
 MonoBehaviour:
@@ -1494,6 +1500,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94955ba17bd1a134ab31c3ca2117f6e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  heartPrefab: {fileID: 1000010220902984, guid: ae32848f47192ee4b8120b97927e7b5e,
+    type: 2}
 --- !u!114 &114000012548119802
 MonoBehaviour:
   m_ObjectHideFlags: 1

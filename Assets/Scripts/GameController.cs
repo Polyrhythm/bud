@@ -108,6 +108,9 @@ public partial class GameController : Singleton<GameController> {
 
     public void OnHereCommand()
     {
+        PetSingleton.Instance.PlusOne();
+        PetSingleton.Instance.GoToHooman();
+
         if (!tutorialAdvice || state != GameStates.CommandTutorial) return;
 
         tutorialAdvice.SendMessage("GoAway");

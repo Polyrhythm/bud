@@ -91,6 +91,12 @@ namespace HoloToolkit.Unity
                     {
                         NameSelect.Instance.OnNameSelect();
                     }
+
+                    else
+                    {
+                        Debug.Log("lol: " + focusedObject);
+                        focusedObject.SendMessage("OnSelect");
+                    }
                     break;
 
                 case GameController.GameStates.PrePetSpawn:

@@ -478,6 +478,11 @@ Prefab:
       propertyPath: drawVisualMeshes
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114000011154029958, guid: 2ed75ffdf9031c94e8bce4b3d17b9928,
+        type: 2}
+      propertyPath: surfaceMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 150603c95ae82bb4a9364677de3f13c1, type: 2}
     m_RemovedComponents:
     - {fileID: 114000012459388718, guid: 2ed75ffdf9031c94e8bce4b3d17b9928, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2ed75ffdf9031c94e8bce4b3d17b9928, type: 2}
@@ -534,13 +539,18 @@ Prefab:
     - target: {fileID: 114000011033500904, guid: 4ed2810bdab567349bbc08b0a31be8b9,
         type: 2}
       propertyPath: drawPlanesMask
-      value: 3
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 114000012519888372, guid: 4ed2810bdab567349bbc08b0a31be8b9,
         type: 2}
       propertyPath: scanTime
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 114000012519888372, guid: 4ed2810bdab567349bbc08b0a31be8b9,
+        type: 2}
+      propertyPath: defaultMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 150603c95ae82bb4a9364677de3f13c1, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4ed2810bdab567349bbc08b0a31be8b9, type: 2}
   m_IsPrefabParent: 0

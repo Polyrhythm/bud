@@ -6,7 +6,6 @@ public partial class NameSelect : Singleton<NameSelect> {
     public static string petName = "Edward";
     public TextMesh textChild;
     public GameObject keyboardPrefab;
-    public InputField textInput;
 
     private GameObject keyboard;
 
@@ -18,16 +17,23 @@ public partial class NameSelect : Singleton<NameSelect> {
 
     public void OnNameSelect()
     {
-        keyboard = (GameObject)Instantiate(keyboardPrefab, transform.position, Quaternion.identity);
+        keyboard = (GameObject)Instantiate(keyboardPrefab, Camera.main.transform.position + Camera.main.transform.forward * 1.5f, Quaternion.identity);
+        transform.parent.GetComponent<Tagalong>().enabled = false;
+        transform.parent.GetComponent<Interpolator>().SetTargetPosition(transform.position - transform.up);
     }
 
-    public void OnSubmit()
+    public void OnSubmit(string text)
     {
-        petName = textInput.text.Trim();
+        petName = text;
+        GameController.Instance.petName = petName;
+        SetText(petName);
+        Destroy(keyboard);
+        transform.parent.GetComponent<Tagalong>().enabled = true;
+        transform.parent.GetComponent<Interpolator>().SetTargetPosition(transform.position + transform.up);
     }
 
     void SetText(string name)
     {
-        textChild.text = name + " (tap to choose)";
+        textChild.text = name + " (tap to change name)";
     }
 }

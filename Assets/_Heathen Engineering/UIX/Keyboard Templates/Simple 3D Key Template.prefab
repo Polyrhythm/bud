@@ -45,6 +45,7 @@ GameObject:
   - 33: {fileID: 3337246}
   - 65: {fileID: 6505050}
   - 23: {fileID: 2370944}
+  - 114: {fileID: 114000011206093806}
   m_Layer: 5
   m_Name: Cube
   m_TagString: Untagged
@@ -99,6 +100,7 @@ GameObject:
   - 114: {fileID: 11479854}
   - 114: {fileID: 11494028}
   - 114: {fileID: 11498386}
+  - 114: {fileID: 114000012020004344}
   m_Layer: 0
   m_Name: Simple 3D Key Template
   m_TagString: Untagged
@@ -545,3 +547,25 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 195372}
   m_IsPrefabParent: 1
+--- !u!114 &114000011206093806
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 161186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe7e0b61d6c2a2249aebf0a952a30c68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114000012020004344
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6c1285d7484cc74f95c09761776aaf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

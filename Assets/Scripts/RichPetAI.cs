@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 using Pathfinding;
 using HoloToolkit.Unity;
+using System.Collections;
 
 public class RichPetAI : RichAI {
     public GameObject headBone;
     public int wanderThreshold = 30;
     private RecastGraph activeGraph;
     private GameObject hooman;
-    private bool goingToHooman = false;
-    private bool goingToObject = false;
+    [HideInInspector]
+    public bool goingToHooman = false;
+    [HideInInspector]
+    public bool goingToObject = false;
     private float originalMaxSpeed = 0f;
 
     private bool isSlerping = false;
@@ -31,15 +34,14 @@ public class RichPetAI : RichAI {
     [HideInInspector]
     public float affinity = 0;
     [HideInInspector]
-    public float energy = 100;
-    [HideInInspector]
     public float hunger = 100;
 
     private const string SPEED_PARAM = "speed";
     private float fieldOfView = 110f;
 
     // Keep track of random items.
-    private GameObject foodBowl;
+    [HideInInspector]
+    public GameObject foodBowl;
 
     [HideInInspector]
     public UAudioManager audioManager;
@@ -113,6 +115,13 @@ public class RichPetAI : RichAI {
         }
     }
 
+    // This is where the pet decides where he/she wants to go next.
+    // OVERRIDE ME!
+    virtual public IEnumerator DecideNextAction()
+    {
+        return null;
+    }
+
     protected override void OnTargetReached()
     {
         if (goingToHooman || goingToObject)
@@ -121,6 +130,8 @@ public class RichPetAI : RichAI {
             goingToHooman = false;
             maxSpeed = originalMaxSpeed;
         }
+
+        StartCoroutine(DecideNextAction());
     }
 
     public void Wander()

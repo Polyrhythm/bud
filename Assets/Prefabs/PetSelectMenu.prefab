@@ -636,9 +636,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textChild: {fileID: 102000010392504554}
-  keyboardPrefab: {fileID: 1000010219946622, guid: d98935e52e59a954b8d814d0bcae3acb,
-    type: 2}
-  textInput: {fileID: 114000012085621122, guid: d98935e52e59a954b8d814d0bcae3acb,
+  keyboardPrefab: {fileID: 1000012413666990, guid: d98935e52e59a954b8d814d0bcae3acb,
     type: 2}
 --- !u!114 &114000012826040958
 MonoBehaviour:

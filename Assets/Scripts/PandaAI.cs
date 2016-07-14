@@ -22,8 +22,44 @@ public class PandaAI : RichPetAI {
 
     void OnToyThrown(GameObject toy)
     {
+        goingToObject = true;
         GoToShinyObject(toy.transform.position);
         audioManager.PlayEvent("react");
+    }
+
+    public override IEnumerator DecideNextAction()
+    {
+        if (goingToHooman || goingToObject)
+        {
+            yield break;
+        }
+
+        if (hunger <= 25 && !goingToObject)
+        {
+            GoToShinyObject(foodBowl.transform.position);
+            goingToObject = true;
+            yield break;
+        }
+
+        int roll = Random.Range(0, 2);
+
+        switch (roll)
+        {
+            case 0:
+                GoToHooman();
+                break;
+
+            case 1:
+                Wander();
+                break;
+
+            case 2:
+                yield return new WaitForSeconds(5f);
+                StartCoroutine(DecideNextAction());
+                break;
+        }
+
+        yield break;
     }
 
     IEnumerator RandomIdle()
@@ -45,24 +81,27 @@ public class PandaAI : RichPetAI {
                     {
                         case 0:
                             animator.SetTrigger("IdleB");
+                            yield return new WaitForSeconds(2f);
                             break;
 
                         case 1:
                             animator.SetTrigger("IdleC");
+                            yield return new WaitForSeconds(4f);
                             break;
 
-                        default:
+                        case 2:
                             animator.SetTrigger("IdleD");
+                            yield return new WaitForSeconds(4.3f);
                             break;
+
+                        default: break;
                     }
 
                     idleTime = -1f;
-                    yield return new WaitForSeconds(IDLE_ANIM_DURATION);
                     animator.SetTrigger("backToIdleA");
                     base.headAnimating = false;
                 }
             }
-
             yield return new WaitForSeconds(2f);
         }
     }

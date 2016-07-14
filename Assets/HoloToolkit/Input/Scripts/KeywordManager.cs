@@ -68,7 +68,6 @@ namespace HoloToolkit.Unity
 
         public void SendPetToHooman()
         {
-            PetSingleton.Instance.GetComponent<RichPetAI>().GoToHooman();
             GameController.Instance.SendMessage("OnHereCommand");
         }
 
